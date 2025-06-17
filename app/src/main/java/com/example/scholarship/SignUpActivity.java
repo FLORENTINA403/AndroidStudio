@@ -6,13 +6,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class SignUpActivity extends AppCompatActivity {
     EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
-    Spinner levelSpinner, fieldSpinner;
     Button signUpButton;
+    DatabaseHelper dbHelper;
     @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_signup);
@@ -30,6 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString();
             String confirmPassword = confirmPasswordEditText.getText().toString();
+
 
             // Validimet
             if (fullName.isEmpty()) {
@@ -51,6 +56,18 @@ public class SignUpActivity extends AppCompatActivity {
                 confirmPasswordEditText.setError("Passwords do not match");
                 return;
             }
+            // Hash password-it
+            String hashedPassword = hashPassword(password);
+
+            // Ruaje në databazë
+            boolean inserted = dbHelper.insertUser(fullName, email, hashedPassword);
+
+            if (inserted) {
+                Toast.makeText(this, "Sign Up Successful. Welcome " + fullName + "!", Toast.LENGTH_LONG).show();
+                finish(); // Mbyll aktivitetin
+            } else {
+                Toast.makeText(this, "Email already exists!", Toast.LENGTH_SHORT).show();
+            }
 
     });
 }
@@ -60,5 +77,19 @@ public class SignUpActivity extends AppCompatActivity {
                 String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
                  return password.matches(pattern);
          }
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : bytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return password; // fallback (e pasigurtë)
+        }
+    }
 
 }
