@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e6f6fc"
+    android:gravity="center"
+    tools:context=".DashboardActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Scholarship Dashboard!"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#0077B6"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/btn_apply_scholarship"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply for Scholarships"
+        android:backgroundTint="#0077B6"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:backgroundTint="#FF6B6B"
+        android:textColor="#ffffff"/>
+    <ImageView
+        android:id="@+id/big_image"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:layout_marginTop="32dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/scc"
+        android:contentDescription="Scholarship Banner"/>
+
+</LinearLayout>
