@@ -7,9 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

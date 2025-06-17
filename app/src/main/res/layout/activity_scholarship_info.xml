@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E1F5FE"
+    tools:ignore="MissingDefaultResource">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- ✨ Section 1: General Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_card_bg"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_scholarship"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Scholarship Icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How to Apply for Scholarships"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#0277BD"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tips to improve your scholarship application:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Start early and check deadlines\n• Customize your personal statement\n• Collect strong recommendation letters\n• Proofread everything before submitting"
+                android:textSize="15sp"
+                android:textColor="#444"
+                android:lineSpacingExtra="6dp" />
+        </LinearLayout>
+
+        <!-- 📱 Section 2: App Instructions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_card_bg"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_scholarship"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Mobile App Icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Using the App"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#0277BD"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Our mobile app makes it easy to search and apply for scholarships on the go!"
+                android:textSize="16sp"
+                android:textColor="#333"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Steps to apply through the app:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Open the app and sign in\n2. Tap 'Search Scholarships'\n3. Filter by field, country, or deadline\n4. Tap a scholarship to view details\n5. Press 'Apply' and fill out the form"
+                android:textSize="15sp"
+                android:textColor="#444"
+                android:lineSpacingExtra="6dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
