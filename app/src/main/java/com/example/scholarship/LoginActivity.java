@@ -46,11 +46,8 @@ public class LoginActivity extends AppCompatActivity {
                 prefs.edit().putBoolean("isLoggedIn", true).apply();
 
                 Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-
-                // Shko te dashboard
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class); // ose MainActivity
-                startActivity(intent);
-                finish(); // mos lejo kthim mbrapa në login
+                startActivity(new Intent(this,ActivityApply.class));
+                finish();
             }
 
             else
