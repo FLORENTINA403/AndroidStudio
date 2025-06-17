@@ -1,19 +1,20 @@
 package com.example.scholarship;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import java.security.MessageDigest;
 
 public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     EditText emailInput, passwordInput;
     TextView forgotPasswordLink, goToSignup;
+    DatabaseHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         forgotPasswordLink = findViewById(R.id.forgot_password);
         goToSignup = findViewById(R.id.go_to_signup);
+        dbHelper = new DatabaseHelper(this);
         ImageView backArrow = findViewById(R.id.back_arrow);
     //
         loginButton.setOnClickListener(v -> {
@@ -34,7 +36,25 @@ public class LoginActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
-            }else {
+            }
+
+            String hashedPassword = hashPassword(password);
+            boolean userExists = dbHelper.checkUser(email, hashedPassword);
+            if (userExists) {
+                // Ruaje login statusin
+                SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
+                prefs.edit().putBoolean("isLoggedIn", true).apply();
+
+                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+
+                // Shko te dashboard
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class); // ose MainActivity
+                startActivity(intent);
+                finish(); // mos lejo kthim mbrapa në login
+            }
+
+            else
+            {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
             }
     });
@@ -52,4 +72,19 @@ public class LoginActivity extends AppCompatActivity {
         // Butoni për kthim mbrapa
         backArrow.setOnClickListener(v -> finish());
 
-}}
+}
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashed = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashed) sb.append(String.format("%02x", b));
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+}

@@ -53,6 +53,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return exists;
     }
+    // Ndrysho fjalëkalimin
+    public boolean updatePassword(String email, String newPasswordHash) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_PASSWORD, newPasswordHash);
+        int rows = db.update(TABLE_USERS, values, "email=?", new String[]{email});
+        db.close();
+        return rows > 0;
+    }
 
 
 
