@@ -1,18 +1,25 @@
 package com.example.scholarship;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 import android.database.Cursor;
 import android.content.ContentResolver;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -22,6 +29,8 @@ public class ActivityApply extends AppCompatActivity {
 
     Button applyButton, uploadPdfButton;
     String selectedPdfPath = ""; // ruan path-in lokal të dokumentit të ngarkuar
+    private final String CHANNEL_ID = "apply_channel";
+    DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,7 @@ public class ActivityApply extends AppCompatActivity {
         fieldAutoComplete.setAdapter(fieldAdapter);
         fieldAutoComplete.setOnClickListener(v -> fieldAutoComplete.showDropDown());
 
+        dbHelper = new DatabaseHelper(this);
         EditText nameInput = findViewById(R.id.fullname_input);
         EditText surnameInput = findViewById(R.id.lastname_input);
         EditText emailInput = findViewById(R.id.email_input);
@@ -83,21 +93,53 @@ public class ActivityApply extends AppCompatActivity {
                 Toast.makeText(this, "Please fill in all fields and upload a PDF", Toast.LENGTH_SHORT).show();
                 return;
             }
+            boolean inserted = dbHelper.insertScholarshipApplication(fullname, surname, email, personalId, phone, level, field, selectedPdfPath);
+            if (inserted) {
+                Toast.makeText(this, "Application submitted successfully", Toast.LENGTH_SHORT).show();
 
-            // Trego vetëm që u dërgua me sukses
-            Toast.makeText(this, "Application captured successfully (not saved)", Toast.LENGTH_LONG).show();
+                // Reset fushat
+                nameInput.setText("");
+                surnameInput.setText("");
+                emailInput.setText("");
+                idInput.setText("");
+                phoneInput.setText("");
+                levelAutoComplete.setText("");
+                fieldAutoComplete.setText("");
+                selectedPdfPath = "";
 
-            // Reset fushat
-            nameInput.setText("");
-            surnameInput.setText("");
-            emailInput.setText("");
-            idInput.setText("");
-            phoneInput.setText("");
-            levelAutoComplete.setText("");
-            fieldAutoComplete.setText("");
-            selectedPdfPath = "";
+                // SHFAQ NJOFTIMIN
+                showCustomNotification();
+            }
+            else{
+                Toast.makeText(this, "Application failed", Toast.LENGTH_SHORT).show();
+            }
         });
     }
+    private void showCustomNotification() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // Create channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID, "Application Success", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // Custom layout për njoftimin
+        RemoteViews customView = new RemoteViews(getPackageName(), R.layout.custom_notification);
+        customView.setTextViewText(R.id.title_text, "🎉 Congratulations!");
+        customView.setTextViewText(R.id.message_text, "Your application has been successfully submitted.");
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_congratulation)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setCustomContentView(customView)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        notificationManager.notify(1001, builder.build());
+    }
+
 
     private String savePdfToLocal(Uri uri) {
         try {

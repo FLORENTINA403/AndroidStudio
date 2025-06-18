@@ -16,7 +16,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_FULLNAME = "fullname";
     public static final String COL_EMAIL = "email";
     public static final String COL_PASSWORD = "password";
-    //
+    // Tabela e aplikimeve për bursa
+    public static final String TABLE_APPLICATIONS = "scholarship_applications";
+
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -62,10 +65,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return rows > 0;
     }
+    // Shto aplikim për bursë
+    public boolean insertScholarshipApplication(String fullname, String surname, String email, String personalId, String phone, String level, String field, String pdfPath) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("fullname", fullname);
+        cv.put("surname", surname);
+        cv.put("email", email);
+        cv.put("personal_id", personalId);
+        cv.put("phone", phone);
+        cv.put("level", level);
+        cv.put("field", field);
+        cv.put("pdf_path", pdfPath); // ruaj path-in
 
-
-
-
+        long result = db.insert(TABLE_APPLICATIONS, null, cv);
+        db.close();
+        return result != -1;
+    }
 
 
 }
