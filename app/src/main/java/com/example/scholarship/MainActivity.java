@@ -11,7 +11,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //animaciomi tek about
+        Button btnmore=findViewById(R.id.btn_apply);
+        btnmore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ScholarshipInfoActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.zoom_in_fade, R.anim.zoom_out_fade); // opsionale, për animacion
+            }
+        });
 
         //lidhja me butonin signup
         Button signupButton = findViewById(R.id.btn_signup);
