@@ -94,6 +94,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return -1; // Nëse nuk u gjet përdoruesi
     }
+    //pjesa per profile merr te dhenat
+    public Cursor getUserById(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM users WHERE id = ?", new String[]{String.valueOf(userId)});
+    }
 
 
 
