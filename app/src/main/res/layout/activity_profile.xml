@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".ProfileActivity"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/user"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            android:padding="8dp"
+            tools:ignore="ExtraText" />
+
+        <!-- Full Name -->
+
+        <!-- Email -->
+
+        <EditText
+            android:id="@+id/name_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittext_background"
+            android:enabled="false"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:textColor="#000000"
+            android:id="@+id/email_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:enabled="false"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Phone -->
+        <EditText
+            android:textColor="#000000"
+            android:id="@+id/phone_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:enabled="false"
+            android:inputType="phone"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Edit/Save Button -->
+        <Button
+            android:id="@+id/edit_profile_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#2196F3"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:textSize="16sp"/>
+    </LinearLayout>
+</ScrollView>
