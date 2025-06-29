@@ -2,6 +2,7 @@ package com.example.scholarship;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,19 +38,34 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            String hashedPassword = hashPassword(password);
-            boolean userExists = dbHelper.checkUser(email, hashedPassword);
-            if (userExists) {
-                // Ruaje login statusin
-                SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
-                prefs.edit().putBoolean("isLoggedIn", true).apply();
-
-                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this,ActivityApply.class));
-                finish();
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                return;
             }
 
+            String hashedPassword = hashPassword(password);
+            int userId = dbHelper.getUserIdByCredentials(email, hashedPassword);
+            if (userId != -1)
+            {
+                // Ruaj user_id dhe login status
+                SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("user_id", userId);
+                editor.putString("user_email", email);
+                editor.putBoolean("isLoggedIn", true);
+                editor.apply();
+                if (email.equals("florentina@gmail.com"))
+                {
+                    // Shko në admin panel
+                    startActivity(new Intent(this, ActivityAdminView.class));
+                }
+                else
+                {
+                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this,DashboardActivity.class));
+                    finish();
+                }
+            }
             else
             {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();

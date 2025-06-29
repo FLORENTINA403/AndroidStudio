@@ -82,6 +82,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return result != -1;
     }
+
+    public int getUserIdByCredentials(String email, String hashedPassword) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id FROM users WHERE email=? AND password=?",
+                new String[]{email, hashedPassword});
+        if (cursor != null && cursor.moveToFirst()) {
+            int userId = cursor.getInt(0);
+            cursor.close();
+            return userId;
+        }
+        return -1; // Nëse nuk u gjet përdoruesi
+    }
+
+
+
     // Kontrollo nëse email ekziston për reset password
     public boolean checkIfEmailExists(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
