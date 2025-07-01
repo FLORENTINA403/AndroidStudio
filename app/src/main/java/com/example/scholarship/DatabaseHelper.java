@@ -111,6 +111,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return exists;
     }
+    // Metoda per update te profilit
+    public boolean updateUserProfile(int userId, String fullName, String email, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("fullname", fullName);
+        values.put("email", email);
+        values.put("phoneNumber", phone);
+        int rows = db.update("users", values, "id = ?", new String[]{String.valueOf(userId)});
+        return rows > 0;
+    }
+
 
 
 }
