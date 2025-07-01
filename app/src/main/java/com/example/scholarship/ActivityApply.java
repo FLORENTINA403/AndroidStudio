@@ -95,6 +95,10 @@ public class ActivityApply extends AppCompatActivity {
             }
             boolean inserted = dbHelper.insertScholarshipApplication(fullname, surname, email, personalId, phone, level, field, selectedPdfPath);
             if (inserted) {
+                //shtojm pjesen e audios
+                // Tingulli
+                MediaPlayer mediaPlayer = MediaPlayer.create(ActivityApply.this, R.raw.success_sound);
+                mediaPlayer.start();
                 Toast.makeText(this, "Application submitted successfully", Toast.LENGTH_SHORT).show();
 
                 // Reset fushat

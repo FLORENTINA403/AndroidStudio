@@ -20,7 +20,18 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DashboardActivity.this, ActivityApply.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.zoom_in_fade, R.anim.zoom_out_fade); // opsionale, për animacion
             }
+        });
+
+        //pjesa e butonit logout
+        Button logoutButton = findViewById(R.id.btn_logout);
+        logoutButton.setOnClickListener(v -> {
+            // Kalo te menuja kryesore (MainActivity)
+            Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish(); // Mbyll DashboardActivity që të mos kthehet me "Back"
         });
 
 
