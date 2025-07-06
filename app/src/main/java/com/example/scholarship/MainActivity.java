@@ -40,11 +40,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-
-
+        //meritaward
+        LinearLayout meritAwardLayout = findViewById(R.id.layout_merit_award);
+        meritAwardLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ScholarshipType.class);
+            startActivity(intent);
+        });
+        //APLY BUTON
+        LinearLayout Aplyeasily = findViewById(R.id.aply_easily);
+        Aplyeasily.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ScholarshipInfoActivity.class);
+            startActivity(intent);
+        });
+// Bottom Navigation
+        BottomNavHandler.setup(this);
     }
 }

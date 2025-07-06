@@ -178,6 +178,7 @@
                 android:padding="16dp">
 
                 <LinearLayout
+                    android:id="@+id/layout_merit_award"
                     android:layout_width="0dp"
                     android:layout_height="160dp"
                     android:layout_weight="1"
@@ -208,6 +209,7 @@
                     android:layout_height="match_parent" />
 
                 <LinearLayout
+                    android:id="@+id/aply_easily"
                     android:layout_width="0dp"
                     android:layout_height="160dp"
                     android:layout_weight="1"
