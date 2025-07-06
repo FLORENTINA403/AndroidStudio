@@ -18,6 +18,9 @@ public class SignUpActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_signup);
+        //thirja e animation
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        //
 
         // Inicilizimi i komponenteve
         fullNameEditText = findViewById(R.id.fullname_input);
@@ -33,10 +36,9 @@ public class SignUpActivity extends AppCompatActivity {
             String password = passwordEditText.getText().toString();
             String confirmPassword = confirmPasswordEditText.getText().toString();
 
-
             // Validimet
-            if (fullName.isEmpty()) {
-                fullNameEditText.setError("Name is required");
+            if (fullName.isEmpty() || !fullName.matches("^[a-zA-Z\\s]+$")) {
+                fullNameEditText.setError("Enter a valid name (letters only)");
                 return;
             }
 
@@ -46,26 +48,41 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             if (!isValidPassword(password)) {
-                passwordEditText.setError("Password must be at least 8 characters, with 1 uppercase, 1 lowercase, 1 digit, and 1 special character");
+                passwordInput.setError("Password must be at least 8 characters, with 1 uppercase, 1 lowercase, 1 digit, and 1 special character");
                 return;
             }
 
             if (!password.equals(confirmPassword)) {
-                confirmPasswordEditText.setError("Passwords do not match");
+                confirmPasswordInput.setError("Passwords do not match");
                 return;
             }
+            if (phoneNumber.isEmpty() || !phoneNumber.matches("\\d{8,12}")) {
+                phoneNumberEditText.setError("Enter a valid phone number (8-12 digits)");
+                return;
+            }
+
+
             // Hash password-it
             String hashedPassword = hashPassword(password);
 
             // Ruaje në databazë
-            boolean inserted = dbHelper.insertUser(fullName, email, hashedPassword);
+            boolean inserted;
 
-            if (inserted) {
-                Toast.makeText(this, "Sign Up Successful. Welcome " + fullName + "!", Toast.LENGTH_LONG).show();
-                finish(); // Mbyll aktivitetin
-            } else {
-                Toast.makeText(this, "Email already exists!", Toast.LENGTH_SHORT).show();
+            try {
+                inserted = dbHelper.insertUser(fullName, email, phoneNumber, hashedPassword);
+
+                if (inserted) {
+                    Toast.makeText(this, "Sign Up Successful. Welcome " + fullName + "!", Toast.LENGTH_LONG).show();
+                    finish(); // Mbyll aktivitetin
+                } else {
+                    Toast.makeText(this, "Email already exists!", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                Toast.makeText(this, "Database error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace(); // për log
             }
+
 
     });
 }

@@ -31,19 +31,30 @@ public class ForgotPassword extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailInput.getText().toString().trim();
 
+
                 if (email.isEmpty()) {
                     emailInput.setError("Please enter your email");
                     return;
                 }
 
-                boolean exists = dbHelper.checkIfEmailExists(email);
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailInput.setError("Invalid email format");
+                    return;
+                }
 
-                if (exists) {
-                    Intent intent = new Intent(ForgotPassword.this, ResetPassword.class);
-                    intent.putExtra("email", email); // dërgo emailin
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(ForgotPassword.this, "Email not found", Toast.LENGTH_SHORT).show();
+                try {
+                    boolean exists = dbHelper.checkIfEmailExists(email);
+
+                    if (exists) {
+                        Intent intent = new Intent(ForgotPassword.this, ResetPassword.class);
+                        intent.putExtra("email", email);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(ForgotPassword.this, "Email not found", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(ForgotPassword.this, "Database error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
             }
         });

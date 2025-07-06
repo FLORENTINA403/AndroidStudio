@@ -20,6 +20,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
+        //thirja e animation
+        View rootLayout = findViewById(R.id.login_layout); // make sure you have this ID
+        Animation zoomIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
+        rootLayout.startAnimation(zoomIn);
+        //
 
     //
         emailInput = findViewById(R.id.email_input);
@@ -38,13 +43,24 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                emailInput.setError("Invalid email format");
+                return;
+            }
+            if (!isPasswordValid(password)) {
+                passwordInput.setError( "Password must be at least 8 characters,\ninclude upper/lowercase, digit and symbol");
                 return;
             }
 
             String hashedPassword = hashPassword(password);
-            int userId = dbHelper.getUserIdByCredentials(email, hashedPassword);
+            int userId;
+            try {
+                userId = dbHelper.getUserIdByCredentials(email, hashedPassword);
+            } catch (Exception e) {
+                Toast.makeText(this, "Database error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (userId != -1)
             {
                 // Ruaj user_id dhe login status
