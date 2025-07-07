@@ -21,6 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         nameText = findViewById(R.id.name_field);
         emailText = findViewById(R.id.email_field);
         phoneText = findViewById(R.id.phone_field);
@@ -32,9 +33,19 @@ public class ProfileActivity extends AppCompatActivity {
         userId = prefs.getInt("user_id", -1);
 
         if (userId == -1) {
-            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+            AlertDialog dialog = new AlertDialog.Builder(ProfileActivity.this)
+                    .setTitle("Authentication Required")
+                    .setMessage("You need to login to continue.")
+                    .setPositiveButton("Login", (dialog1, which) -> {
+                        startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .setIcon(R.drawable.ic_warning)
+                    .create();
+            dialog.show();
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.teal_700));
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.purple_500));
+
         }
 
         loadUserData(userId);
@@ -44,8 +55,10 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
             startActivity(intent);
         });
-
+        // Bottom Navigation
+        BottomNavHandler.setup(this);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -66,6 +79,27 @@ public class ProfileActivity extends AppCompatActivity {
 
             cursor.close();
         }
-    }
+        //logout buton
+        Button logoutButton = findViewById(R.id.btn_logout);
+        logoutButton.setOnClickListener(v -> {
+            AlertDialog dialog =new AlertDialog.Builder(ProfileActivity.this)
+                    .setTitle("Confirm Logout")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Logout", (dialogInterface, which) -> {
+                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                        prefs.edit().clear().apply();
 
+                        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+            dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+            dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
+        });
+
+    }
 }
+
