@@ -1,86 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    tools:context=".ProfileActivity"
-    android:padding="24dp">
+    android:background="@drawable/bg_gradient">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+    <!-- 🔒 Logout Button - Top Left -->
+    <ImageView
+        android:id="@+id/btn_logoutt"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:src="@drawable/logout2"
+        android:contentDescription="Logout"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Profile Image -->
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/user"
-            android:scaleType="centerCrop"
-            android:background="@drawable/circle_background"
-            android:padding="8dp"
-            tools:ignore="ExtraText" />
+    <!-- 🧾 Scrollable Profile Form -->
+    <ScrollView
+        android:id="@+id/scroll_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="24dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_logoutt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Full Name -->
-
-        <!-- Email -->
-
-        <EditText
-            android:id="@+id/name_field"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/edittext_background"
-            android:enabled="false"
-            android:hint="Full Name"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <EditText
-            android:textColor="#000000"
-            android:id="@+id/email_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:enabled="false"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"/>
+            <!-- Profile Image -->
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/user"
+                android:contentDescription="Profile Image"
+                android:background="@drawable/circle_background"
+                android:padding="8dp"
+                android:elevation="4dp"
+                android:layout_marginBottom="24dp" />
 
-        <!-- Phone -->
-        <EditText
-            android:textColor="#000000"
-            android:id="@+id/phone_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone Number"
-            android:enabled="false"
-            android:inputType="phone"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"/>
+            <!-- Full Name -->
+            <EditText
+                android:id="@+id/name_field"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Full Name"
+                android:padding="12dp"
+                android:textColor="#0D2B45"
+                android:textColorHint="#BBBBBB"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Edit/Save Button -->
-        <Button
-            android:id="@+id/edit_profile_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#2196F3"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:padding="12dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-</ScrollView>
+            <!-- Email -->
+            <EditText
+                android:id="@+id/email_field"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Email"
+                android:padding="12dp"
+                android:textColor="#0D2B45"
+                android:textColorHint="#BBBBBB"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Phone Number -->
+            <EditText
+                android:id="@+id/phone_field"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Phone Number"
+                android:padding="12dp"
+                android:textColor="#0D2B45"
+                android:textColorHint="#BBBBBB"
+                android:fontFamily="@font/poppins_regular"
+                android:inputType="phone"
+                android:layout_marginBottom="24dp" />
+
+            <!--  Edit Profile Button -->
+            <Button
+                android:id="@+id/edit_profile_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#0077B6"
+                android:fontFamily="@font/poppins_bold"
+                android:paddingVertical="12dp"
+                android:layout_marginBottom="100dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

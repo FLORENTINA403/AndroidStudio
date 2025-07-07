@@ -8,12 +8,13 @@
     android:orientation="vertical"
     android:padding="24dp"
     tools:context=".LoginActivity">
-    <ImageView
-        android:id="@+id/back_arrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/arrow"
-        android:contentDescription="Back Arrow" />
+    <View
+        android:layout_width="match_parent"
+        android:background="#1B4965"
+        android:orientation="vertical"
+        android:layout_height="33dp"
+        tools:ignore="MissingConstraints" />
+
     <!-- LOGIN Title -->
     <TextView
         android:id="@+id/login_title"

@@ -1,116 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E1F5FE"
-    tools:ignore="MissingDefaultResource">
+    android:padding="16dp"
+    android:background="@drawable/scc3">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:orientation="vertical">
 
-        <!-- ✨ Section 1: General Info -->
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Back" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/scholarship_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Excellence in Education Grant"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Deadline & Fee -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_card_bg"
-            android:elevation="4dp"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:layout_marginBottom="24dp">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_scholarship"
-                android:layout_marginBottom="16dp"
-                android:contentDescription="Scholarship Icon" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="How to Apply for Scholarships"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="#0277BD"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
+                android:text="📅 Application deadline:"
+                android:textColor="#BBDEFB"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/deadline_value"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tips to improve your scholarship application:"
-                android:textSize="16sp"
+                android:text=" 5 May 2025"
+                android:textColor="#FF8A80"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="#333"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="• Start early and check deadlines\n• Customize your personal statement\n• Collect strong recommendation letters\n• Proofread everything before submitting"
-                android:textSize="15sp"
-                android:textColor="#444"
-                android:lineSpacingExtra="6dp" />
+                android:fontFamily="@font/poppins_medium" />
         </LinearLayout>
 
-        <!-- 📱 Section 2: App Instructions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_card_bg"
-            android:elevation="4dp"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_scholarship"
-                android:layout_marginBottom="16dp"
-                android:contentDescription="Mobile App Icon" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Using the App"
-                android:textSize="22sp"
+                android:text="💰 Registration Fee:"
+                android:textColor="#BBDEFB"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium" />
+
+            <TextView
+                android:id="@+id/fee_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" €10"
+                android:textColor="#FF8A80"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="#0277BD"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Our mobile app makes it easy to search and apply for scholarships on the go!"
-                android:textSize="16sp"
-                android:textColor="#333"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Steps to apply through the app:"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#333"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1. Open the app and sign in\n2. Tap 'Search Scholarships'\n3. Filter by field, country, or deadline\n4. Tap a scholarship to view details\n5. Press 'Apply' and fill out the form"
-                android:textSize="15sp"
-                android:textColor="#444"
-                android:lineSpacingExtra="6dp" />
+                android:fontFamily="@font/poppins_medium" />
         </LinearLayout>
 
+        <!-- Card 1: What's included -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card_bg_dark"
+            android:alpha="0.85"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📝 What’s included:"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💡 Cash Prize: A generous award for top students.\n\n🎓 Tuition Support: Funding for your studies.\n\n🌍 Exchange programs and internships.\n\n✔️ Eligibility: GPA > 9.0, full-time student at UP"
+                android:textColor="#E0F7FA"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:fontFamily="@font/poppins_regular" />
+        </LinearLayout>
+
+        <!-- Card 2: Boost -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card_bg_blue"
+            android:elevation="6dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🚀 Boost your academic career!"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scholarships at UP help fund your education and open global opportunities."
+                android:textColor="#BBDBBB"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/poppins_regular" />
+        </LinearLayout>
+
+        <!-- Footer -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💙 Apply through your university portal"
+            android:textColor="#E3F2FD"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:fontFamily="@font/poppins_medium" />
     </LinearLayout>
 </ScrollView>
