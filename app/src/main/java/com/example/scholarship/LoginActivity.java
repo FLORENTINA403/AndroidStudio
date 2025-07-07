@@ -1,8 +1,14 @@
 package com.example.scholarship;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.security.MessageDigest;
+import java.util.Random;
 
 public class LoginActivity extends AppCompatActivity {
     Button loginButton;
@@ -33,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         forgotPasswordLink = findViewById(R.id.forgot_password);
         goToSignup = findViewById(R.id.go_to_signup);
         dbHelper = new DatabaseHelper(this);
-        ImageView backArrow = findViewById(R.id.back_arrow);
     //
         loginButton.setOnClickListener(v -> {
             String email = emailInput.getText().toString().trim();
@@ -77,9 +83,18 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this,DashboardActivity.class));
-                    finish();
+                    //pjesa kur dergohet otp ne rast te userave te tjere nese eshte online nese eshte ofline kalo ne main
+                    if (isConnectedToInternet()) {
+                        String otp = generateOTP();
+                        sendOtpEmail(email, otp); // You’ll implement this
+                        Toast.makeText(this, "OTP sent to your email", Toast.LENGTH_SHORT).show();
+                        Intent otpIntent = new Intent(this, OtpVerificationActivity.class);
+                        otpIntent.putExtra("email", email);
+                        otpIntent.putExtra("otp", otp);
+                        startActivity(otpIntent);
+                    } else {
+                        proceedToMain(email); // Skip 2FA if offline
+                    }
                 }
             }
             else
@@ -98,10 +113,13 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
-        // Butoni për kthim mbrapa
-        backArrow.setOnClickListener(v -> finish());
 
 }
+    private boolean isPasswordValid(String password) {
+        String passwordPattern =
+                "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*/._-])(?=\\S+$).{8,}$";
+        return password.matches(passwordPattern);
+    }
     private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -113,6 +131,31 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+    ///shiko per internet conection method per 2FA method
+    private boolean isConnectedToInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
+    }
+    //gjenerimi i nje numri random per 2FA
+    private String generateOTP() {
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000);
+        return String.valueOf(otp);
+    }
+    // metoda main ne rast se je offline
+    private void proceedToMain(String email) {
+        Toast.makeText(this, "Login successful (offline mode)", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    //thirrja e optmethod
+    private void sendOtpEmail(String email, String otp) {
+        new Thread(() -> {
+            EmailSender.sendOtp(email, otp);
+        }).start(); // Send on background thread to avoid blocking UI
     }
 
 
