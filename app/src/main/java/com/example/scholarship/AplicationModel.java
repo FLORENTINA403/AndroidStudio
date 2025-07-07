@@ -1,4 +1,4 @@
-package com.example.newproj;
+package com.example.scholarship;
 
 public class AplicationModel {
     private int id;

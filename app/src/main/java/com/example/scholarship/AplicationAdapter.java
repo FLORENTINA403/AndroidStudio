@@ -1,5 +1,4 @@
-package com.example.newproj;
-
+package com.example.scholarship;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,11 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.File;
 import java.util.List;
 
@@ -25,12 +22,7 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.Vi
     private DatabaseHelper dbHelper;
     private int selectedPosition = RecyclerView.NO_POSITION;
 
-    setContentView(R.layout.activity_admin_view);
-
-    RecyclerView recyclerView = findViewById(R.id.recyclerView);
-    TextView totalApplicants = findViewById(R.id.total_applicants);
-
-    ublic AplicationAdapter(Context context, List<AplicationModel> list) {
+    public AplicationAdapter(Context context, List<AplicationModel> list) {
         this.context = context;
         this.list = list;
         this.dbHelper = new DatabaseHelper(context);
@@ -49,8 +41,17 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.Vi
             personalId = itemView.findViewById(R.id.applicant_id);
             phone = itemView.findViewById(R.id.applicant_phone);
             pdfPath = itemView.findViewById(R.id.view_pdf_button);
+            //select item per me editu aplicantin
+            itemView.setOnClickListener(v -> {
+                int previousPosition = selectedPosition;
+                selectedPosition = getAdapterPosition();
+                if (previousPosition != RecyclerView.NO_POSITION) {
+                    notifyItemChanged(previousPosition); // unselect previous
+                }
+                notifyItemChanged(selectedPosition); // select new
+            });
         }
-
+    }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -68,7 +69,16 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.Vi
             holder.phone.setText("Phone: " + model.getPhone());
             holder.level.setText("Level: " + model.getLevel());
             holder.field.setText("Field: " + model.getField());
+            //tek pjesa e selektimit te aplikantit
+            if (position == selectedPosition) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#D0E8FF")); // light blue highlight
+            } else {
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT); // default
+            }
         }
+
+
+
 
 
     }

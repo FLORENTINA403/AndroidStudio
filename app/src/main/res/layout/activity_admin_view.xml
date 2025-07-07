@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/admin_dashboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f5fafd"
+    android:padding="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ActivityAdminView">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/btn_logout"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:text="Logout"
+            android:background="@drawable/logout2"
+            android:paddingHorizontal="16dp"/>
+    </LinearLayout>
+
+    <!-- Total Applicants -->
+    <TextView
+        android:id="@+id/total_applicants_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="👥 Total Applicants: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#0077B6"
+        android:background="@drawable/rounded_card_bg"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Toggle link -->
+    <TextView
+        android:id="@+id/link_more_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="More details 🔽"
+        android:textSize="16sp"
+        android:textColor="#0077B6"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Hidden chart + breakdown container -->
+    <LinearLayout
+        android:id="@+id/details_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/scholarship_pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/merit_count_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎓 Merit-based: 0"
+            android:textSize="16sp"
+            android:textColor="#006494"
+            android:background="@drawable/rounded_card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/social_count_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="👨‍👩‍👧‍👦 Social-based: 0"
+            android:textSize="16sp"
+            android:textColor="#006494"
+            android:background="@drawable/rounded_card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/international_count_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌍 International-based: 0"
+            android:textSize="16sp"
+            android:textColor="#006494"
+            android:background="@drawable/rounded_card_bg"
+            android:padding="12dp" />
+    </LinearLayout>
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📋 Application List"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#0077B6"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Search -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Search by name, email, ID, field..."
+        android:background="@drawable/edittext_background"
+        android:elevation="2dp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/applicantsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:padding="8dp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- PDF Download -->
+    <Button
+        android:id="@+id/btn_download_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download as PDF"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#0077B6"
+        android:drawableStart="@android:drawable/ic_menu_save"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- Edit/Delete Buttons -->
+    <LinearLayout
+        android:id="@+id/bulk_action_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp">
+
+        <Button
+            android:id="@+id/btn_edit_applicant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit Applicant"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#0077B6"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btn_delete_applicant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Delete Applicant"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#D9534F" />
+    </LinearLayout>
+</LinearLayout>

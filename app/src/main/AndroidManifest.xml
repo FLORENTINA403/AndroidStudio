@@ -31,7 +31,6 @@
         <activity android:name=".ResetPassword" />
         <activity android:name=".ScholarshipInfoActivity" />
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".ScholarShipType"/>
     </application>
 
 

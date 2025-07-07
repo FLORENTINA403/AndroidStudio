@@ -1,4 +1,4 @@
-package com.example.newproj;
+package com.example.scholarship;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
