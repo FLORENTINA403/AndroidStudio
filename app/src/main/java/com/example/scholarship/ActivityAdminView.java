@@ -93,9 +93,66 @@ public class ActivityAdminView extends AppCompatActivity {
             }
         });
 
+        // PDF download
+        btnDownloadPdf.setOnClickListener(v -> generatePdf(adapter.getApplicationList()));
 
+        // Search
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                performSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                performSearch(newText);
+                return true;
+            }
+        });
+
+        //logut
+        ImageView btnLogout = findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(v -> {
+            getSharedPreferences("MyAppPrefs", MODE_PRIVATE).edit().clear().apply();
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
 
     }
+
+    private void performSearch(String query) {
+        List<AplicationModel> filteredList = new ArrayList<>();
+        if (query.isEmpty()) {
+            filteredList = applicationList;
+        } else {
+            for (AplicationModel app : applicationList) {
+                if ((app.getFullname() != null && app.getFullname().toLowerCase().contains(query)) ||
+                        (app.getSurname() != null && app.getSurname().toLowerCase().contains(query)) ||
+                        (app.getEmail() != null && app.getEmail().toLowerCase().contains(query)) ||
+                        (app.getPersonalId() != null && app.getPersonalId().toLowerCase().contains(query)) ||
+                        (app.getPhone() != null && app.getPhone().toLowerCase().contains(query)) ||
+                        (app.getField() != null && app.getField().toLowerCase().contains(query)) ||
+                        (app.getLevel() != null && app.getLevel().toLowerCase().contains(query))) {
+                    filteredList.add(app);
+                }
+            }
+        }
+        adapter.setFilteredList(filteredList);
+        totalApplicantsText.setText("Total Applicants: " + filteredList.size());
+        if (detailsContainer.getVisibility() == View.VISIBLE) {
+            updateScholarshipChart(filteredList);
+        }
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "No matching results found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+}
 
 }
 
