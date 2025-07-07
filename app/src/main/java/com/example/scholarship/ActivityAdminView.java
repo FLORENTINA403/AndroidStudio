@@ -61,6 +61,38 @@ public class ActivityAdminView extends AppCompatActivity {
         btnDownloadPdf = findViewById(R.id.btn_download_pdf);
 
         totalApplicantsText.setText("Total Applicants: " + applicationList.size());
+        / More details chart toggle
+        linkMoreDetails.setOnClickListener(v -> {
+            if (detailsContainer.getVisibility() == View.GONE) {
+                detailsContainer.setVisibility(View.VISIBLE);
+                updateScholarshipChart(adapter.getApplicationList());
+                linkMoreDetails.setText("Hide details 🔼");
+            } else {
+                detailsContainer.setVisibility(View.GONE);
+                linkMoreDetails.setText("More details 🔽");
+            }
+        });
+
+        // Edit selected applicant
+        btnEdit.setOnClickListener(v -> {
+            AplicationModel selected = adapter.getSelectedItem();
+            if (selected != null) {
+                adapter.showEditDialog(selected);
+            } else {
+                Toast.makeText(this, "Please select an applicant to edit", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Delete selected applicant
+        btnDelete.setOnClickListener(v -> {
+            AplicationModel selected = adapter.getSelectedItem();
+            if (selected != null) {
+                adapter.deleteSelected();
+            } else {
+                Toast.makeText(this, "Please select an applicant to delete", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
     }
