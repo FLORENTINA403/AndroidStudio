@@ -110,9 +110,102 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.Vi
 
         }
 
-
-
-
-
+    @Override
+    public int getItemCount() {
+        return 0;
     }
+    public void setFilteredList(List<AplicationModel> filteredList) {
+        this.list = filteredList;
+        selectedPosition = RecyclerView.NO_POSITION; // clear selection
+        notifyDataSetChanged();
+    }
+
+
+    public List<AplicationModel> getApplicationList() {
+        return list;
+    }
+
+    public AplicationModel getSelectedItem() {
+        if (selectedPosition >= 0 && selectedPosition < list.size()) {
+            return list.get(selectedPosition);
+        }
+        return null;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+    public void showEditDialog(AplicationModel model) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_applicant, null);
+        EditText editName = dialogView.findViewById(R.id.edit_name);
+        EditText editEmail = dialogView.findViewById(R.id.edit_email);
+        EditText editPersonalId = dialogView.findViewById(R.id.edit_personalId);
+        EditText editPhone = dialogView.findViewById(R.id.edit_phone);
+        EditText editLevel = dialogView.findViewById(R.id.edit_level);
+        EditText editField = dialogView.findViewById(R.id.edit_field);
+
+        editName.setText(model.getFullname());
+        editEmail.setText(model.getEmail());
+        editPersonalId.setText(model.getPersonalId());
+        editPhone.setText(model.getPhone());
+        editLevel.setText(model.getLevel());
+        editField.setText(model.getField());
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("Edit Applicant")
+                .setView(dialogView)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        dialog.show();
+
+        Button saveBtn = dialogView.findViewById(R.id.save_button);
+        saveBtn.setOnClickListener(btn -> {
+            String newName = editName.getText().toString().trim();
+            String newEmail = editEmail.getText().toString().trim();
+            String newPersonalId = editPersonalId.getText().toString().trim();
+            String newPhone = editPhone.getText().toString().trim();
+            String newLevel = editLevel.getText().toString().trim();
+            String newField = editField.getText().toString().trim();
+
+            boolean updated = dbHelper.updateApplicant(
+                    model.getId(), newName, newEmail, newPersonalId, newPhone, newLevel, newField);
+
+            if (updated) {
+                Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT).show();
+                model.setFullname(newName);
+                model.setEmail(newEmail);
+                model.setPersonalId(newPersonalId);
+                model.setPhone(newPhone);
+                model.setLevel(newLevel);
+                model.setField(newField);
+                notifyItemChanged(selectedPosition);
+            } else {
+                Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
+            }
+
+            dialog.dismiss();
+        });
+    }
+
+    public void deleteSelected() {
+        if (selectedPosition >= 0 && selectedPosition < list.size()) {
+            AplicationModel model = list.get(selectedPosition);
+            boolean deleted = dbHelper.deleteApplicant(model.getId());
+            if (deleted) {
+                list.remove(selectedPosition);
+                notifyItemRemoved(selectedPosition);
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                selectedPosition = RecyclerView.NO_POSITION;
+            } else {
+                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, "No applicant selected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
 }

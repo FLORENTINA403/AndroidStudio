@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Users.db";
@@ -23,25 +26,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_USERS + " (" +
                 COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_FULLNAME + " TEXT, " +
                 COL_EMAIL + " TEXT UNIQUE, " +
-                COL_PASSWORD + " TEXT)");}
+                COL_PASSWORD + " TEXT)");
 
-    db.execSQL("CREATE TABLE " + TABLE_APPLICATIONS + " (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "fullname TEXT, " +
-            "surname TEXT, " +
-            "email TEXT, " +
-            "personal_id TEXT, " +
-            "phone TEXT, " +
-            "field TEXT, " +
-            "level TEXT, " +
-            "pdf_path TEXT, " +
+    db.execSQL("CREATE TABLE "+TABLE_APPLICATIONS +" ("+
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            "fullname TEXT, "+
+            "surname TEXT, "+
+            "email TEXT, "+
+            "personal_id TEXT, "+
+            "phone TEXT, "+
+            "field TEXT, "+
+            "level TEXT, "+
+            "pdf_path TEXT, "+
             "scholarship_type TEXT)");
+}
 
 
     @Override
@@ -139,6 +144,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_APPLICATIONS, null);
     }
+
+    //getAllAplication
+    public List<AplicationModel> getAllApplicationsAsList() {
+        List<AplicationModel> applicationList = new ArrayList<>();
+        Cursor cursor = getAllApplications();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String fullname = cursor.getString(cursor.getColumnIndexOrThrow("fullname"));
+                String surname = cursor.getString(cursor.getColumnIndexOrThrow("surname"));
+                String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+                String personalId = cursor.getString(cursor.getColumnIndexOrThrow("personal_id"));
+                String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
+                String field = cursor.getString(cursor.getColumnIndexOrThrow("field"));
+                String level = cursor.getString(cursor.getColumnIndexOrThrow("level"));
+                String pdfPath = cursor.getString(cursor.getColumnIndexOrThrow("pdf_path"));
+                String scholarshipType = cursor.getString(cursor.getColumnIndexOrThrow("scholarship_type"));
+
+
+                AplicationModel model = new AplicationModel(id,
+                        fullname, surname, email, personalId, phone, field, level, pdfPath,scholarshipType
+                );
+
+                applicationList.add(model);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return applicationList;
+    }
+    //update apliacant
+    public boolean updateApplicant(int id, String fullname, String email,String personalId, String phone, String level, String field) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("fullname", fullname);
+        values.put("email", email);
+        values.put("personal_Id",personalId);
+        values.put("phone", phone);
+        values.put("level", level);
+        values.put("field", field);
+
+        int rows = db.update(TABLE_APPLICATIONS, values, "id = ?", new String[]{String.valueOf(id)});
+        return rows > 0;
+    }
+    //delete app
+    public boolean deleteApplicant(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rows = db.delete(TABLE_APPLICATIONS, "id = ?", new String[]{String.valueOf(id)});
+        return rows > 0;
+    }
+
 
 
 

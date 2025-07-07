@@ -22,18 +22,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 public class ActivityAdminView extends AppCompatActivity {
+    private RecyclerView applicantsRecyclerView;
+    private AplicationAdapter adapter;
+    private List<AplicationModel> applicationList;
+    private DatabaseHelper databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_view);
-        dbHelper = new DatabaseHelper(this);
-        applicationList = dbHelper.getAllApplications();
+        databaseHelper = new DatabaseHelper(this);
+        applicationList = databaseHelper.getAllApplicationsAsList();
 
         //set i adapter
-        aplicationAdapter = new AplicationAdapter(applicationList);
-        recyclerView.setAdapter(aplicationAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        applicantsRecyclerView = findViewById(R.id.applicantsRecyclerView);
+        applicantsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AplicationAdapter(this, applicationList);
+        applicantsRecyclerView.setAdapter(adapter);
 
     }
 
