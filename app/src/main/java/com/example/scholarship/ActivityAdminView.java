@@ -185,18 +185,51 @@ public class ActivityAdminView extends AppCompatActivity {
         socialCountText.setText("👨‍👩‍👧‍👦 Social-based: " + social);
         internationalCountText.setText("🌍 International-based: " + international);
     }
+    private void generatePdf(List<AplicationModel> dataList) {
+        PdfDocument pdfDocument = new PdfDocument();
+        Paint paint = new Paint();
+        int pageWidth = 595, pageHeight = 842, y = 50;
 
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
 
+        paint.setTextSize(14);
+        paint.setFakeBoldText(true);
+        canvas.drawText("Application List", 220, y, paint);
+        paint.setFakeBoldText(false);
+        y += 30;
 
+        for (AplicationModel app : dataList) {
+            if (y > pageHeight - 100) {
+                pdfDocument.finishPage(page);
+                pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pdfDocument.getPages().size() + 1).create();
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+                y = 50;
+            }
+            canvas.drawText("ScholarshipType: " + app.getScholarshipType(), 40, y, paint); y += 30;
+            canvas.drawText("Fullname: " + app.getFullname(), 40, y, paint); y += 20;
+            canvas.drawText("Surname: " + app.getSurname(), 40, y, paint); y += 20;
+            canvas.drawText("Email: " + app.getEmail(), 40, y, paint); y += 20;
+            canvas.drawText("ID: " + app.getPersonalId(), 40, y, paint); y += 20;
+            canvas.drawText("Phone: " + app.getPhone(), 40, y, paint); y += 20;
+            canvas.drawText("Field: " + app.getField(), 40, y, paint); y += 20;
+            canvas.drawText("Level: " + app.getLevel(), 40, y, paint); y += 30;
 
+        }
 
+        pdfDocument.finishPage(page);
 
-
-
-
-
-
-}
-
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Application_List.pdf");
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            pdfDocument.writeTo(fos);
+            Toast.makeText(this, "PDF saved to:\n" + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error saving PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        pdfDocument.close();
+    }
 }
 
