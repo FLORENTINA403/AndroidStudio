@@ -61,7 +61,7 @@ public class ActivityAdminView extends AppCompatActivity {
         btnDownloadPdf = findViewById(R.id.btn_download_pdf);
 
         totalApplicantsText.setText("Total Applicants: " + applicationList.size());
-        / More details chart toggle
+        // More details chart toggle
         linkMoreDetails.setOnClickListener(v -> {
             if (detailsContainer.getVisibility() == View.GONE) {
                 detailsContainer.setVisibility(View.VISIBLE);
