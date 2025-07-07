@@ -17,6 +17,11 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -148,6 +153,45 @@ public class ActivityAdminView extends AppCompatActivity {
             Toast.makeText(this, "No matching results found", Toast.LENGTH_SHORT).show();
         }
     }
+    private void updateScholarshipChart(List<AplicationModel> list) {
+        int merit = 0, social = 0, international = 0;
+        for (AplicationModel app : list) {
+            String type = app.getScholarshipType() != null ? app.getScholarshipType().toLowerCase() : "";
+            if (type.contains("merit")) merit++;
+            else if (type.contains("social")) social++;
+            else if (type.contains("international")) international++;
+        }
+
+        List<PieEntry> entries = new ArrayList<>();
+        if (merit > 0) entries.add(new PieEntry(merit, "Merit"));
+        if (social > 0) entries.add(new PieEntry(social, "Social"));
+        if (international > 0) entries.add(new PieEntry(international, "International"));
+
+        PieDataSet dataSet = new PieDataSet(entries, "Scholarship Types");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setValueTextColor(Color.WHITE);
+        dataSet.setValueTextSize(16f);
+
+        PieData data = new PieData(dataSet);
+        pieChart.setData(data);
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        pieChart.getLegend().setTextColor(Color.DKGRAY);
+        pieChart.invalidate();
+
+        meritCountText.setText("🎓 Merit-based: " + merit);
+        socialCountText.setText("👨‍👩‍👧‍👦 Social-based: " + social);
+        internationalCountText.setText("🌍 International-based: " + international);
+    }
+
+
+
+
+
+
+
 
 
 
