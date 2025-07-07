@@ -26,6 +26,14 @@ public class ActivityAdminView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_view);
+        dbHelper = new DatabaseHelper(this);
+        applicationList = dbHelper.getAllApplications();
+
+        //set i adapter
+        aplicationAdapter = new AplicationAdapter(applicationList);
+        recyclerView.setAdapter(aplicationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
     }
 

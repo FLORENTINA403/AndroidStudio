@@ -31,6 +31,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_EMAIL + " TEXT UNIQUE, " +
                 COL_PASSWORD + " TEXT)");}
 
+    db.execSQL("CREATE TABLE " + TABLE_APPLICATIONS + " (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "fullname TEXT, " +
+            "surname TEXT, " +
+            "email TEXT, " +
+            "personal_id TEXT, " +
+            "phone TEXT, " +
+            "field TEXT, " +
+            "level TEXT, " +
+            "pdf_path TEXT, " +
+            "scholarship_type TEXT)");
+
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
@@ -120,6 +133,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("phoneNumber", phone);
         int rows = db.update("users", values, "id = ?", new String[]{String.valueOf(userId)});
         return rows > 0;
+    }
+    //marrja e listave_aplikantit
+    public Cursor getAllApplications() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_APPLICATIONS, null);
     }
 
 
