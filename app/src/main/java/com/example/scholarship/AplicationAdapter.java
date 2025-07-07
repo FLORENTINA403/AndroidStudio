@@ -75,6 +75,39 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.Vi
             } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT); // default
             }
+
+            String pdfFileName = new File(model.getPdfPath().trim()).getName();
+            holder.pdfPath.setText("PDF: " + pdfFileName);
+
+            holder.pdfPath.setOnClickListener(v -> {
+                String pdfPath = model.getPdfPath();
+
+                if (pdfPath == null || pdfPath.isEmpty()) {
+                    Toast.makeText(context, "No PDF path found", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                File file = new File(pdfPath);
+                if (!file.exists()) {
+                    Toast.makeText(context, "File does not exist", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Uri uri = FileProvider.getUriForFile(context,
+                        context.getPackageName() + ".provider", file);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(uri, "application/pdf");
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                try {
+                    context.startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(context, "No app found to open PDF", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
         }
 
 
