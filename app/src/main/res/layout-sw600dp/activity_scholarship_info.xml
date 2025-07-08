@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@drawable/scc3">
+
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_card_bg_dark"
+        android:padding="24dp"
+        android:alpha="0.95"
+        android:elevation="8dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_marginBottom="24dp"
+            android:contentDescription="Back" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/scholarship_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Excellence in Education Grant"
+            android:textSize="26sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Deadline & Fee -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📅 Application deadline:"
+                android:textColor="#BBDEFB"
+                android:textSize="15sp"
+                android:fontFamily="@font/poppins_medium" />
+
+            <TextView
+                android:id="@+id/deadline_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 5 May 2025"
+                android:textColor="#FF8A80"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💰 Registration Fee:"
+                android:textColor="#BBDEFB"
+                android:textSize="15sp"
+                android:fontFamily="@font/poppins_medium" />
+
+            <TextView
+                android:id="@+id/fee_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" €10"
+                android:textColor="#FF8A80"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_medium" />
+        </LinearLayout>
+
+        <!-- What’s included Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card_bg_dark"
+            android:layout_marginBottom="20dp"
+            android:alpha="0.90"
+            android:elevation="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📝 What’s included:"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:fontFamily="@font/poppins_bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💡 Cash Prize: A generous award for top students.\n\n🎓 Tuition Support: Funding for your studies.\n\n🌍 Exchange programs and internships.\n\n✔️ Eligibility: GPA > 9.0, full-time student at UP"
+                android:textColor="#E0F7FA"
+                android:textSize="15sp"
+                android:lineSpacingExtra="6dp"
+                android:fontFamily="@font/poppins_regular" />
+        </LinearLayout>
+
+        <!-- Boost Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card_bg_blue"
+            android:elevation="8dp"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🚀 Boost your academic career!"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scholarships at UP help fund your education and open global opportunities."
+                android:textColor="#BBDBBB"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/poppins_regular" />
+        </LinearLayout>
+
+        <!-- Footer -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💙 Apply through your university portal"
+            android:textColor="#E3F2FD"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+</ScrollView>
