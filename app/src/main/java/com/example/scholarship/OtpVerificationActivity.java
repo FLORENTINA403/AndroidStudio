@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
+import java.util.Random;
 
 public class OtpVerificationActivity extends AppCompatActivity {
     EditText otpInput;
@@ -55,6 +56,15 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 Toast.makeText(this, "Invalid OTP", Toast.LENGTH_SHORT).show();
             }
         });
+        resendButton.setOnClickListener(v -> {
+            generatedOtp = generateNewOtp();
+            sendOtpEmail(email, generatedOtp);
+            Toast.makeText(this, "OTP resent to email", Toast.LENGTH_SHORT).show();
+            otpExpired = false;
+            resendButton.setEnabled(false);
+            startOtpCountdown(); // Restart timer
+        });
+    }
 
 
 
@@ -67,12 +77,35 @@ public class OtpVerificationActivity extends AppCompatActivity {
                     int sec = (int) (millisUntilFinished / 1000) % 60;
                     otpTimer.setText(String.format(Locale.getDefault(), "Code expires in: %02d:%02d", min, sec));
                 }
+                @Override
+                public void onFinish() {
+                    otpTimer.setText("OTP expired.");
+                    otpExpired = true;
+                    resendButton.setEnabled(true);
+                }
+            }.start();
+        }
 
+        private String generateNewOtp() {
+            Random random = new Random();
+            int otp = 100000 + random.nextInt(900000);
+            return String.valueOf(otp);
+        }
 
+        private void sendOtpEmail(String email, String otp) {
+            new Thread(() -> {
+                try {
+                    EmailSender.sendOtp(email, otp);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
 
+        @Override
+        protected void onDestroy() {
+            if (countDownTimer != null) countDownTimer.cancel();
+            super.onDestroy();
+        }
+    }
 
-
-
-
-
-}
