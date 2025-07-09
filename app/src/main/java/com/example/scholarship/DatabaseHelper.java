@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0;
     }
     // Shto aplikim për bursë
-    public boolean insertScholarshipApplication(String fullname, String surname, String email, String personalId, String phone, String level, String field, String pdfPath) {
+    public boolean insertScholarshipApplication(String fullname, String surname, String email, String personalId, String phone, String level, String field, String pdfPath,String scholarshipType) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("fullname", fullname);
@@ -94,12 +94,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("phone", phone);
         cv.put("level", level);
         cv.put("field", field);
-        cv.put("pdf_path", pdfPath); // ruaj path-in
-
+        cv.put("pdf_path", pdfPath);
+        cv.put("scholarship_type", scholarshipType);
         long result = db.insert(TABLE_APPLICATIONS, null, cv);
         db.close();
         return result != -1;
     }
+
 
     public int getUserIdByCredentials(String email, String hashedPassword) {
         SQLiteDatabase db = this.getReadableDatabase();

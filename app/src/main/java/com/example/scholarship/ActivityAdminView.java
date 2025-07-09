@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,6 +67,9 @@ public class ActivityAdminView extends AppCompatActivity {
         btnDownloadPdf = findViewById(R.id.btn_download_pdf);
 
         totalApplicantsText.setText("Total Applicants: " + applicationList.size());
+        EditText searchText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        searchText.setHintTextColor(Color.parseColor("#80D8FF"));
+
         // More details chart toggle
         linkMoreDetails.setOnClickListener(v -> {
             if (detailsContainer.getVisibility() == View.GONE) {
