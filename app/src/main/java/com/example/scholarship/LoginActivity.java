@@ -93,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                         otpIntent.putExtra("otp", otp);
                         startActivity(otpIntent);
                     } else {
-                        proceedToMain(email); // Skip 2FA if offline
+                        Toast.makeText(this, "Login successful (offline mode)", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, MainActivity.class));
                     }
                 }
             }
@@ -108,11 +109,8 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Shkon në faqen e Sign Up
-        goToSignup.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-            startActivity(intent);
-        });
+        //thirrja e botom navigation
+        BottomNavHandler.setup(this);
 
 }
     private boolean isPasswordValid(String password) {
@@ -132,26 +130,31 @@ public class LoginActivity extends AppCompatActivity {
             return null;
         }
     }
-    ///shiko per internet conection method per 2FA method
+
     private boolean isConnectedToInternet() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnected();
+        try {
+            Process process = java.lang.Runtime.getRuntime().exec("ping -c 1 google.com");
+            int returnVal = process.waitFor();
+            return (returnVal == 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    //gjenerimi i nje numri random per 2FA
+
     private String generateOTP() {
         Random random = new Random();
         int otp = 100000 + random.nextInt(900000);
         return String.valueOf(otp);
     }
-    // metoda main ne rast se je offline
+
     private void proceedToMain(String email) {
         Toast.makeText(this, "Login successful (offline mode)", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
-    //thirrja e optmethod
+
     private void sendOtpEmail(String email, String otp) {
         new Thread(() -> {
             EmailSender.sendOtp(email, otp);

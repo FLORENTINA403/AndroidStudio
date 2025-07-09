@@ -8,33 +8,37 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    EditText fullNameEditText, emailEditText,phoneNumberEditText;
     Button signUpButton;
     DatabaseHelper dbHelper;
+    TextInputEditText passwordInput, confirmPasswordInput;
     @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_signup);
-        //thirja e animation
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        //
 
-        // Inicilizimi i komponenteve
         fullNameEditText = findViewById(R.id.fullname_input);
         emailEditText = findViewById(R.id.email_input);
-        passwordEditText = findViewById(R.id.password_input);
-        confirmPasswordEditText = findViewById(R.id.confirm_password_input);
+        passwordInput = findViewById(R.id.password_input);
+        confirmPasswordInput = findViewById(R.id.confirm_password_input);
+        phoneNumberEditText=findViewById(R.id.number_input);
         signUpButton = findViewById(R.id.signup_button);
-        ImageView backArrow = findViewById(R.id.back_arrow);
+        // Inicilizimi i databazës
+        dbHelper = new DatabaseHelper(this);
 
         signUpButton.setOnClickListener(v -> {
             String fullName = fullNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString();
-            String confirmPassword = confirmPasswordEditText.getText().toString();
+            String password = passwordInput.getText() != null ? passwordInput.getText().toString() : "";
+            String confirmPassword = confirmPasswordInput.getText() != null ? confirmPasswordInput.getText().toString() : "";
+            String phoneNumber=phoneNumberEditText.getText().toString();
 
             // Validimet
             if (fullName.isEmpty() || !fullName.matches("^[a-zA-Z\\s]+$")) {
@@ -83,6 +87,9 @@ public class SignUpActivity extends AppCompatActivity {
                 e.printStackTrace(); // për log
             }
 
+            //thirrja e botom nav
+            BottomNavHandler.setup(this);
+
 
     });
 }
@@ -103,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return password; // fallback (e pasigurtë)
+            return password;
         }
     }
 

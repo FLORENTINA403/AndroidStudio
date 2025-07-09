@@ -3,11 +3,14 @@ package com.example.scholarship;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -27,6 +30,26 @@ public class ProfileActivity extends AppCompatActivity {
         phoneText = findViewById(R.id.phone_field);
         editProfileButton = findViewById(R.id.edit_profile_button);
         dbHelper = new DatabaseHelper(this);
+        ImageView logoutButton = findViewById(R.id.btn_logoutt);
+        //logout buton
+        logoutButton.setOnClickListener(v -> {
+            AlertDialog dialog =new AlertDialog.Builder(ProfileActivity.this)
+                    .setTitle("Confirm Logout")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Logout", (dialogInterface, which) -> {
+                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                        prefs.edit().clear().apply();
+                        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.zoom_in_fade, R.anim.zoom_out_fade);
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+            dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+            dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
+        });
 
         // Merr user_id nga SharedPreferences
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -79,26 +102,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             cursor.close();
         }
-        //logout buton
-        Button logoutButton = findViewById(R.id.btn_logout);
-        logoutButton.setOnClickListener(v -> {
-            AlertDialog dialog =new AlertDialog.Builder(ProfileActivity.this)
-                    .setTitle("Confirm Logout")
-                    .setMessage("Are you sure you want to log out?")
-                    .setPositiveButton("Logout", (dialogInterface, which) -> {
-                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-                        prefs.edit().clear().apply();
-
-                        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
-            dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
-            dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
-        });
 
     }
 }

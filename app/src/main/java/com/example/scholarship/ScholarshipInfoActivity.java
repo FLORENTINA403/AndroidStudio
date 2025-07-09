@@ -10,7 +10,8 @@ public class ScholarshipInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scholarship_info);
-        // Këtu vendos informatat që dëshiron të shfaqen
+        // Bottom Navigation
+        BottomNavHandler.setup(this);
     }
     @Override
     //ketu eshte pjesa ku e bejme back ne faqen e kryesore

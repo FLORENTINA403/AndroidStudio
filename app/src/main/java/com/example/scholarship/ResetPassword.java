@@ -30,12 +30,6 @@ public class ResetPassword extends AppCompatActivity {
         resetButton = findViewById(R.id.reset_button);
         dbHelper = new DatabaseHelper(this);
         TextView backToLogin = findViewById(R.id.back_to_login);
-        //backtoLogin
-        backToLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(ResetPassword.this, LoginActivity.class);
-            startActivity(intent);
-            finish(); // optional
-        });
 
         // Merr emailin nga intenti
         userEmail = getIntent().getStringExtra("email");
@@ -66,6 +60,13 @@ public class ResetPassword extends AppCompatActivity {
                     Toast.makeText(ResetPassword.this, "Error updating password", Toast.LENGTH_LONG).show();
                 }
             }
+        });
+
+        //kthehu ne login
+        backToLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(ResetPassword.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 

@@ -18,7 +18,7 @@
             android:id="@+id/toolbar_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#2c80a3"
+            android:background="#1B4965"
             android:title="Sign Up"
             android:titleTextColor="@android:color/white"
             android:elevation="4dp"

@@ -1,4 +1,4 @@
-package com.example.newproj;
+package com.example.scholarship;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,9 +19,11 @@ public class ScholarshipType extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scholarship_types);
+
         Button meritButton = findViewById(R.id.btn_apply_merit);
-        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE); // same name
-        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false); // same key
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+
         //pjesa e butonave
         meritButton.setOnClickListener(v -> {
             if (isLoggedIn) {
@@ -47,10 +49,11 @@ public class ScholarshipType extends AppCompatActivity {
 
             }
         });
+
         Button socialbuton = findViewById(R.id.btn_apply_social);
         socialbuton.setOnClickListener(v -> {
             if (isLoggedIn) {
-                // user is logged in
+
                 Intent intent = new Intent(ScholarshipType.this, ActivityApply.class);
                 intent.putExtra("scholarship_type", "Social-based Scholarship");
                 startActivity(intent);
@@ -73,6 +76,7 @@ public class ScholarshipType extends AppCompatActivity {
             }
 
         });
+
         Button InternationButton = findViewById(R.id.btn_apply_international);
         InternationButton.setOnClickListener(v -> {
             if (isLoggedIn) {
@@ -98,7 +102,7 @@ public class ScholarshipType extends AppCompatActivity {
 
             }
         });
-        ////
+
         //back button
         ImageView backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> finish());
