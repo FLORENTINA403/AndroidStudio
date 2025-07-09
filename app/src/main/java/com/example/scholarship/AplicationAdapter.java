@@ -207,7 +207,4 @@ public class AplicationAdapter extends RecyclerView.Adapter<AplicationAdapter.Vi
         }
     }
 
-
-
-
 }

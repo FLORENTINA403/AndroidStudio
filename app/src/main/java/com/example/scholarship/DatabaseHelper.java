@@ -18,6 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_USER_ID = "id";
     public static final String COL_FULLNAME = "fullname";
     public static final String COL_EMAIL = "email";
+    public static final String COL_PHONE = "phoneNumber";
     public static final String COL_PASSWORD = "password";
     // Tabela e aplikimeve për bursa
     public static final String TABLE_APPLICATIONS = "scholarship_applications";
@@ -51,15 +52,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Drop existing table if it exists
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_APPLICATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        // Recreate the database
         onCreate(db);
     }
     // Shto user të ri
-    public boolean insertUser(String fullname, String email, String password) {
+    public boolean insertUser(String fullname, String email,String phoneNumber, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_FULLNAME, fullname);
         values.put(COL_EMAIL, email);
+        values.put(COL_PHONE, phoneNumber );
         values.put(COL_PASSWORD, password);
         long result = db.insert(TABLE_USERS, null, values);
         return result != -1;
@@ -111,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
             return userId;
         }
-        return -1; // Nëse nuk u gjet përdoruesi
+        return -1;
     }
     //pjesa per profile merr te dhenat
     public Cursor getUserById(int userId) {
@@ -144,6 +149,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getAllApplications() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_APPLICATIONS, null);
+    }
+    //marrja e type per tek admini
+    public Cursor searchApplications(String keyword) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_APPLICATIONS +
+                " WHERE fullname LIKE ? OR surname LIKE ? OR email LIKE ? " +
+                "OR personal_id LIKE ? OR phone LIKE ? OR field LIKE ? OR level LIKE ?";
+        String likeKeyword = "%" + keyword + "%";
+        return db.rawQuery(query, new String[]{
+                likeKeyword, likeKeyword, likeKeyword, likeKeyword, likeKeyword, likeKeyword, likeKeyword
+        });
     }
 
     //getAllAplication
